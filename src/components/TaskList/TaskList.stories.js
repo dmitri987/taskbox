@@ -1,18 +1,22 @@
 import React from 'react';
 
-import TaskList from './TaskList';
+import { PureTaskList } from './TaskList';
 import { STATES } from '../Task/Task';
 import * as TaskStories from '../Task/Task.stories';
 
+// import { Provider } from 'react-redux';
+// import store from '../../lib/store';
+
+
 export default {
-  component: TaskList,
+  component: PureTaskList,
   title: 'TaskList',
   decorators: [
     (story) => <div style={{ margin: '2em', }}>{story()}</div>,
   ]
 }
 
-const Template = (args) => <TaskList {...args} />;
+const Template = (args) => <PureTaskList {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 import Task, { STATES } from '../Task/Task';
 
+import { connect } from 'react-redux';
+import { archiveTask, pinTask, } from '../../lib/store';
+
 const LoadingRow = (
   <div className="loading-item">
     <span className="glow-checkbox" />
@@ -13,7 +16,7 @@ const LoadingRow = (
 );
 
 
-const TaskList = ({ loading, tasks, onPinTask, onArchiveTask, }) => {
+export const PureTaskList = ({ loading, tasks, onPinTask, onArchiveTask, }) => {
   if (loading)
     return (
       <div className="list-items">
@@ -55,15 +58,25 @@ const TaskList = ({ loading, tasks, onPinTask, onArchiveTask, }) => {
   )
 }
 //loading, tasks, onPinTask, onArchiveTask,
-TaskList.propTypes = {
+PureTaskList.propTypes = {
   loading: PropTypes.bool,
   tasks: PropTypes.arrayOf(Task.propTypes.task),
   onPinTask: PropTypes.func,
   onArchiveTask: PropTypes.func,
 };
 
-TaskList.defaultProps = {
+PureTaskList.defaultProps = {  
   loading: false,
+  tasks: [],
 }
 
-export default TaskList;
+export default connect(
+  state => ({
+    tasks: state.tasks,
+    loading: state.loading,
+  }),
+  dispatch => ({
+    onArchiveTask: (id) => dispatch(archiveTask(id)),
+    onPinTask: (id) => dispatch(pinTask(id)),
+  })
+)(PureTaskList);
